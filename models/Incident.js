@@ -1,46 +1,42 @@
 const mongoose = require('mongoose');
 
 const incidentSchema = new mongoose.Schema({
-  title: {
-    type: String,
+  sensorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Sensor',
     required: true,
+  },
+  type: {
+    type: String,
+    enum: ['intrusion', 'unusual_activity', 'system_failure'],
+    required: true,
+  },
+  severity: {
+    type: String,
+    enum: ['low', 'medium', 'high', 'critical'],
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ['open', 'investigating', 'resolved', 'false_positive'],
+    default: 'open',
+  },
+  isAI_Detected: {
+    type: Boolean,
+    default: false,
   },
   description: {
     type: String,
-    required: true,
   },
-  location: {
-    type: {
-      type: String,
-      enum: ['Point'],
-      default: 'Point',
-    },
-    coordinates: {
-      type: [Number], // [longitude, latitude]
-      required: true,
-    }
-  },
-  alerts: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Alert',
-  }],
-  status: {
-    type: String,
-    enum: ['Open', 'Investigating', 'Closed'],
-    default: 'Open',
-  },
-  operatorId: {
+  resolvedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   },
-  resolutionNotes: {
-    type: String,
+  resolvedAt: {
+    type: Date,
   }
 }, {
-  timestamps: true,
+  timestamps: true
 });
-
-// Index for geospatial queries
-incidentSchema.index({ location: '2dsphere' });
 
 module.exports = mongoose.model('Incident', incidentSchema);

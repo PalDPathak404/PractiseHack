@@ -7,41 +7,30 @@ const sensorSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['CCTV', 'Motion', 'Heat', 'Seismic', 'Drone'],
+    enum: ['cctv', 'motion', 'heat', 'seismic', 'drone'],
     required: true,
   },
   location: {
-    type: {
-      type: String,
-      enum: ['Point'],
+    lat: {
+      type: Number,
       required: true,
-      default: 'Point',
     },
-    coordinates: {
-      type: [Number], // [longitude, latitude]
+    lng: {
+      type: Number,
       required: true,
     }
   },
   status: {
     type: String,
-    enum: ['Active', 'Inactive', 'Maintenance'],
-    default: 'Active',
-  },
-  batteryLevel: {
-    type: Number,
-    min: 0,
-    max: 100,
-    default: 100,
+    enum: ['active', 'inactive', 'maintenance'],
+    default: 'active',
   },
   lastPing: {
     type: Date,
     default: Date.now,
   }
 }, {
-  timestamps: true,
+  timestamps: true
 });
-
-// Index for geospatial queries
-sensorSchema.index({ location: '2dsphere' });
 
 module.exports = mongoose.model('Sensor', sensorSchema);
