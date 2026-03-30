@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 10, 10, 10;
+    --foreground: 237, 237, 237;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased font-sans;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.glass {
+  @apply bg-card border border-card-border backdrop-blur-md;
+}
+
+.glow-primary {
+  @apply shadow-[0_0_15px_rgba(99,102,241,0.3)] hover:shadow-[0_0_20px_rgba(99,102,241,0.5)] transition-shadow duration-300;
+}
+
+.glow-danger {
+  @apply shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_20px_rgba(239,68,68,0.5)] transition-shadow duration-300;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-white/10 rounded-full hover:bg-white/20 transition-colors;
+}
+
+/* Leaflet Overrides */
+.leaflet-container {
+  @apply rounded-xl border border-white/10 !bg-[#0c0c0c];
+}
+
+.leaflet-tile {
+  filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+}
+
+.leaflet-control-zoom {
+  @apply !border-none !bg-transparent;
+}
+
+.leaflet-control-zoom-in, .leaflet-control-zoom-out {
+  @apply !bg-card !text-white !border !border-white/10 !rounded-lg mb-1 hover:!bg-white/10 transition-colors;
+}
